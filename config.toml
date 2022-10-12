@@ -1,3 +1,4 @@
+baseURL = "http://phyqh.github.io/"
 copyright = "© HE Qihao"
 languageCode = "en-us"
 theme = "hugo-ink"
