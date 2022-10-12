@@ -1,0 +1,26 @@
+copyright = "© HE Qihao"
+languageCode = "en-us"
+theme = "hugo-ink"
+title = "HE Qihao"
+# Code Highlight
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+pygmentsstyle = "vs"
+paginate = 10 # articles per page
+
+[params]
+avatar = "https://avatars.githubusercontent.com/u/76864671?v=4"
+mode = "light"
+featherIconsCDN = true
+subtitle = "Graphics and Games!"
+excludedTypes = ["page", "pages"]
+
+[[params.social]]
+icon = "github"
+name = "GitHub"
+url = "https://github.com/phyqh"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
