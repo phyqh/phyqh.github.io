@@ -1,7 +1,13 @@
----
-title: "My First Post"
-date: 2022-10-12T23:03:04+08:00
-draft: true
----
++++
+hidden = true
+title = "Home"
+layout = "single"
++++
 
-Hi! HE Qihao from UST here.
+* [About Me](/pages/about/)
+* [Curriculum Vitae](/files/CV.pdf)
+
+I'm also available at:
+
+* [GitHub](https://github.com/phyqh)
+* Email: `qheag at connect dot ust dot hk`
