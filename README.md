@@ -1,3 +1,3 @@
 # HE Qihao's personal website
 
-[Welcome](https://phyqh.github.io/)! <del>(Nothing significant yet)
+[Welcome](https://phyqh.github.io/)!
