@@ -5,4 +5,4 @@ date = "2022-10-13"
 date_update = true
 +++
 
-Hi there! This is HE Qihao from HKUST.
+Hi there! This is Qihao, I graduated from HKUST and am now a first year MSCS student at Texas A&M University, where my current research is on light transport problems.
