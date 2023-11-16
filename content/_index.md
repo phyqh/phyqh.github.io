@@ -10,4 +10,4 @@ layout = "single"
 I'm also available at:
 
 * [GitHub](https://github.com/phyqh)
-* Email: `qheag at connect dot ust dot hk`
+* Email:  `phyqh at tamu dot edu` / `qheag at connect dot ust dot hk`
