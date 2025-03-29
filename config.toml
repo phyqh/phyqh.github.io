@@ -17,11 +17,6 @@ paginate = 10 # articles per page
   excludedTypes = ["page", "pages"]
   favicon = "images/icons/genshin-impact.svg"
 
-[[menu.main]]
-name = "Publications"
-url = "/publications"
-weight = 4
-
 [[params.social]]
 icon = "github"
 name = "GitHub"
