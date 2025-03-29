@@ -6,6 +6,7 @@ layout = "single"
 
 * [About Me](/pages/about/)
 * [Curriculum Vitae](/files/CV.pdf)
+* [Publications](/publications)
 
 I'm also available at:
 
