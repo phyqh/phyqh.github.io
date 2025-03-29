@@ -1,0 +1,77 @@
+{{/* layouts/partials/post-preview.html */}}
+<!-- <h1>!!! OVERRIDE IS WORKING !!!</h1> -->
+
+{{/* --- Debugging Start --- */}}
+<!-- <div style="border: 1px solid red; padding: 5px; margin: 5px 0; background-color: #333;">
+    <p style="color: yellow;">DEBUG for: {{ .RelPermalink }}</p>
+    {{ $thumbParam := .Params.thumbnail }}
+    <p style="color: yellow;">Found 'thumbnail' param: [{{ $thumbParam | default "NOT FOUND" }}]</p>
+    {{ $image := "" }}
+    {{ with $thumbParam }}
+        {{ $image = $.Resources.GetMatch . }}
+        {{ if $image }}
+            <p style="color: lightgreen;">SUCCESS: Matched image resource: {{ $image.Name }}</p>
+            <p style="color: lightgreen;">Resource Path: {{ $image.RelPermalink }}</p>
+        {{ else }}
+            <p style="color: red;">ERROR: Failed to GetMatch resource for path: '{{ . }}'</p>
+            <p style="color: orange;">Available Resources:</p>
+            <ul>
+                {{ range $.Resources }}
+                   <li style="color: orange;">{{ .Name }} ({{ .ResourceType }})</li>
+                {{ end }}
+            </ul>
+        {{ end }}
+    {{ else }}
+        <p style="color: orange;">INFO: No 'thumbnail' parameter set in front matter.</p>
+    {{ end }}
+</div> -->
+{{/* --- Debugging End --- */}}
+
+
+{{/* Define desired thumbnail size */}}
+{{ $thumbWidth := 250 }}
+<!-- {{ $thumbHeight := 250 }} -->
+{{ $thumbResizeOptions := printf "%dx q100 Lanczos" $thumbWidth }}
+
+{{/* --- Original Code Resumes (keep $image variable defined above) --- */}}
+
+
+<div class="post-header{{ if $image }} with-thumbnail{{ end }}"> {{/* Add a class if thumbnail exists for styling */}}
+
+    {{/* --- Thumbnail Section --- */}}
+    {{ with $image }}
+        {{/* Resize the image */}}
+        {{ $thumb := .Resize $thumbResizeOptions }}
+        <div class="post-thumbnail">
+            <a href="{{ $.RelPermalink }}" aria-hidden="true" tabindex="-1"> {{/* Link thumbnail to post */}}
+                <img src="{{ $thumb.RelPermalink }}"
+                     alt="{{ $.Title }} thumbnail"
+                     width="{{ $thumb.Width }}"
+                     height="{{ $thumb.Height }}"
+                     loading="lazy"> {{/* Add lazy loading */}}
+            </a>
+        </div>
+    {{ end }}
+    {{/* --- End Thumbnail Section --- */}}
+
+    <div class="meta">
+        <div class="date">
+            <span class="day">{{ dateFormat "02" .Date }}</span>
+            <span class="rest">{{ if $.Site.Data.month }}{{ index $.Site.Data.month (printf "%d" .Date.Month) }} {{ .Date.Year }}{{ else }}{{ dateFormat "Jan 2006" .Date }}{{ end }}</span>
+        </div>
+    </div>
+    <div class="matter">
+        <h4 class="title small">
+            <a href="{{ .RelPermalink }}">{{.Title}}{{ if .Draft }}<sup class="draft-label">DRAFT</sup>{{ end }}</a>
+        </h4>
+        <span class="description">
+            {{ if isset .Params "description" }}
+                {{ .Description | markdownify | plainify | safeHTML }} {{/* Process description safely */}}
+            {{ else if gt (countrunes (.Content | plainify)) 120 }}
+                {{ slicestr (.Content | plainify) 0 120 | safeHTML }}...
+            {{ else }}
+                {{ .Content | plainify | safeHTML }}
+            {{ end }}
+        </span>
+    </div>
+</div>

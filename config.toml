@@ -15,6 +15,7 @@ paginate = 10 # articles per page
   featherIconsCDN = true
   subtitle = "Graphics and Games!"
   excludedTypes = ["page", "pages"]
+  customCSS = "css/custom.css"
   favicon = "images/icons/genshin-impact.png"
 
 [[params.social]]

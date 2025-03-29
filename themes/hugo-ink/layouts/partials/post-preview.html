@@ -1,22 +1,66 @@
-<div class="post-header">
-	<div class="meta">
-		<div class="date">
-			<span class="day">{{ dateFormat "02" .Date }}</span>
-			<span class="rest">{{ if $.Site.Data.month }}{{ index $.Site.Data.month (printf "%d" .Date.Month) }} {{ .Date.Year }}{{ else }}{{ dateFormat "Jan 2006" .Date }}{{ end }}</span>
-		</div>
-	</div>
-	<div class="matter">
-		<h4 class="title small">
-			<a href="{{ .RelPermalink }}">{{.Title}}{{ if .Draft }}<sup class="draft-label">DRAFT</sup>{{ end }}</a>
-		</h4>
-		<span class="description">
-			{{ if isset .Params "description" }}
-				{{ .Description }}
-			{{ else if gt (countrunes (.Content | plainify)) 120 }}
-				{{ slicestr (.Content | plainify) 0 120 | safeHTML }}...
-			{{ else }}
-				{{ .Content | plainify | safeHTML }}
-			{{ end }}
-		</span>
-	</div>
+{{/* layouts/partials/post-preview.html */}}
+
+{{/* --- Configuration --- */}}
+{{ $cssWidth := 150 }} {{/* The width set in your CSS */}}
+{{ $resizeWidth := mul $cssWidth 10 }} {{/* Calculate 2x width for resizing */}}
+{{/* Resize based on 2x width, high quality */}}
+{{ $thumbResizeOptions := printf "%dx q95 Lanczos" $resizeWidth }} {{/* Use $resizeWidth, q95 is often enough */}}
+
+{{/* --- Find Image --- */}}
+{{ $image := "" }}
+{{ with .Params.thumbnail }}
+    {{ $image = $.Resources.GetMatch . }}
+{{ end }}
+
+{{/* --- Main Post Header Div --- */}}
+<div class="post-header{{ if $image }} with-thumbnail{{ end }}">
+
+    {{/* --- Thumbnail Section --- */}}
+    {{ with $image }}
+        {{ $thumb := "" }}
+        {{ safe.Try .Resize $thumbResizeOptions | lang.Unmarshal (dict "Var" "$thumb") }}
+
+        {{/* Container size is controlled by CSS (150x150px) */}}
+        <div class="post-thumbnail">
+            <a href="{{ $.RelPermalink }}" aria-hidden="true" tabindex="-1">
+                {{ if $thumb }}
+                    {{/* IMG tag links to the 300px wide resized image */}}
+                    {{/* Width/Height attributes help browser layout before CSS/IMG loads */}}
+                    <img src="{{ $thumb.RelPermalink }}"
+                         alt="{{ $.Title }} thumbnail"
+                         width="{{ $thumb.Width }}"   {{/* Will be ~300 */}}
+                         height="{{ $thumb.Height }}" {{/* Will be calculated height */}}
+                         loading="lazy">
+                {{ else }}
+                    <span style="color: red; font-size: 0.8em;">Resize Err</span>
+                {{ end }}
+            </a>
+        </div>
+    {{ end }}
+    {{/* --- End Thumbnail Section --- */}}
+
+    {{/* --- Meta Section (Date Removed) --- */}}
+    <div class="meta">
+        {{/* Date block is removed, but keep .meta div for structure */}}
+        {{/* You could add other meta info here if needed later */}}
+    </div>
+    {{/* --- End Meta Section --- */}}
+
+    {{/* --- Matter Section (Title & Description) --- */}}
+    <div class="matter">
+        <h4 class="title small">
+            <a href="{{ .RelPermalink }}">{{.Title}}{{ if .Draft }}<sup class="draft-label">DRAFT</sup>{{ end }}</a>
+        </h4>
+        <span class="description">
+            {{ if isset .Params "description" }}
+                {{ .Description | markdownify | plainify | safeHTML }}
+            {{ else if gt (countrunes (.Content | plainify)) 120 }}
+                {{ slicestr (.Content | plainify) 0 120 | safeHTML }}...
+            {{ else }}
+                {{ .Content | plainify | safeHTML }}
+            {{ end }}
+        </span>
+    </div>
+    {{/* --- End Matter Section --- */}}
+
 </div>

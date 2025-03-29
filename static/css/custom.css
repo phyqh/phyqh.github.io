@@ -1,0 +1,68 @@
+/* ---- In your assets/css/custom.css ---- */
+
+/* Use parent classes from the theme structure to increase specificity */
+/* Adjust '.posts.flat' if your theme uses a different structure */
+/* Find the class on the main UL/DIV wrapping the list items */
+
+/* Target .post-thumbnail more specifically (adjust selector if needed) */
+ul.posts.flat li.post .post-thumbnail {
+    flex-shrink: 0; /* Keep */
+    width: 150px;   /* Keep */
+    height: 150px;  /* Keep */
+    overflow: hidden; /* Keep */
+    /* Add a background color for letterboxing/pillarboxing */
+    background-color: #f8f8f8; /* Light grey, change as needed, or transparent */
+    /* Optional: Center the contained image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Target the IMG inside more specifically (adjust selector if needed) */
+ul.posts.flat li.post .post-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* --- CHANGE THIS --- */
+    object-fit: contain; /* Was: cover */
+    /* Make sure max-width/max-height don't interfere if added elsewhere */
+    max-width: 100%;
+    max-height: 100%;
+}
+
+ul.posts.flat li.post .post-header.with-thumbnail {
+    /* Keep existing rules if they work */
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Target .meta more specifically */
+ul.posts.flat li.post .meta {
+   flex-shrink: 0 !important; /* Add !important first to FORCE check */
+   /* Add any other necessary overrides for .meta */
+}
+
+/* Target .matter more specifically */
+ul.posts.flat li.post .matter {
+   flex-grow: 1;
+   min-width: 0; /* Keep this */
+}
+
+/* --- Styles for the list page grouping (keep as is or increase specificity too) --- */
+.publication-month-header { /* Or maybe '.posts.flat .publication-month-header' */
+    margin-top: 2em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5em;
+}
+
+.publication-list-group { /* Or maybe '.posts.flat .publication-list-group' */
+    list-style: none;
+    padding-left: 0;
+}
+
+.publication-list-group li {
+    padding-bottom: 0;
+}
