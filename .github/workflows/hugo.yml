@@ -22,19 +22,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.111.3  # Updated to a newer version
+      HUGO_VERSION: 0.111.3
     steps:
       - name: Install Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+      
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
+      
       - name: Setup Pages
-        id: pages
         uses: actions/configure-pages@v3
+      
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
@@ -42,11 +44,39 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL "https://phyqh.github.io/"
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        run: |
+          # This replaces the actions/upload-pages-artifact action
+          # Compress the public directory
+          cd public && tar -cvf ../public.tar .
+          # Upload as an artifact
+          mkdir -p $RUNNER_TEMP/artifact
+          mv ../public.tar $RUNNER_TEMP/artifact/
+          echo "::set-output name=artifact-path::$RUNNER_TEMP/artifact"
+      
+      - name: Upload Pages artifact
+        uses: actions/github-script@v6
         with:
-          path: ./public
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const artifactName = 'github-pages';
+            const artifactPath = process.env.RUNNER_TEMP + '/artifact';
+            
+            const artifact = await github.rest.actions.createArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: artifactName,
+              path: artifactPath
+            });
+            
+            console.log(`Artifact uploaded: ${artifact.data.url}`);
 
   deploy:
     environment:
