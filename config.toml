@@ -10,11 +10,18 @@ pygmentsstyle = "vs"
 paginate = 10 # articles per page
 
 [params]
-avatar = "https://avatars.githubusercontent.com/u/76864671?v=4"
-mode = "light"
-featherIconsCDN = true
-subtitle = "Graphics and Games!"
-excludedTypes = ["page", "pages"]
+  avatar = "https://avatars.githubusercontent.com/u/76864671?v=4"
+  mode = "light"
+  featherIconsCDN = true
+  subtitle = "Graphics and Games!"
+  excludedTypes = ["page", "pages"]
+  favicon = "images/icons/genshin-impact.svg"
+  mainSections = ["posts", "publications"]
+
+[[menu.main]]
+name = "Publications"
+url = "/publications"
+weight = 4
 
 [[params.social]]
 icon = "github"
