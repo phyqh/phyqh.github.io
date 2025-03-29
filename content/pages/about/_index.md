@@ -6,3 +6,5 @@ date_update = true
 +++
 
 Hi there! This is Qihao, I graduated from HKUST and am now a second year MSCS student at Texas A&M University supervised by Prof. [Nima Khademi Kalantari](https://people.engr.tamu.edu/nimak/index.html), where my current focus is neural-aided photorealistic rendering.
+
+Starting 2025 Summer, I will start working as a PhD student.
