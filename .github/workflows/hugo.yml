@@ -33,16 +33,15 @@ jobs:
       HUGO_VERSION: 0.102.3
     steps:
       - name: Debug directories
-        run: |
-          echo "Project root contents:"
-          ls -la
-          echo "\nStatic directory exists?"
-          if [ -d "static" ]; then echo "Yes"; else echo "No"; fi
-          echo "\nStatic directory contents:"
-          ls -la static
-          echo "\nAfter Hugo build, public directory contents:"
-          hugo --minify
-          ls -la public
+              run: |
+                echo "Project root contents:"
+                ls -la
+                echo -e "\nStatic directory exists?"
+                if [ -d "static" ]; then echo "Yes"; else echo "No"; fi
+                if [ -d "static" ]; then
+                  echo -e "\nStatic directory contents:"
+                  find static -type f | sort
+                fi
       - name: Install Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.deb \
