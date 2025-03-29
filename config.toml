@@ -15,11 +15,8 @@ paginate = 10 # articles per page
   featherIconsCDN = true
   subtitle = "Graphics and Games!"
   excludedTypes = ["page", "pages"]
-
-[[menu.main]]
-name = "Publications"
-url = "/publications"
-weight = 4
+  favicon = "images/icons/genshin-impact.svg"
+  mainSections = ["publications"]
 
 [[params.social]]
 icon = "github"
