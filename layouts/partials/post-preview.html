@@ -28,27 +28,37 @@
 {{/* --- Debugging End --- */}}
 
 
-{{/* Define desired thumbnail size */}}
-{{ $thumbWidth := 250 }}
-<!-- {{ $thumbHeight := 250 }} -->
-{{ $thumbResizeOptions := printf "%dx q100 Lanczos" $thumbWidth }}
+{{/* --- Configuration --- */}}
+{{ $cssWidth := 150 }} {{/* SET this to the target display width from your CSS */}}
+{{ $resizeWidth := mul $cssWidth 10 }} {{/* Calculate 10x width */}}
+{{/* Use 10x width, highest quality */}}
+{{ $thumbResizeOptions := printf "%dx q100 Lanczos" $resizeWidth }} {{/* e.g., "300x q100 Lanczos" */}}
 
-{{/* --- Original Code Resumes (keep $image variable defined above) --- */}}
+{{/* --- Find Image --- */}}
+{{ $image := "" }}
+{{ with .Params.thumbnail }}
+    {{ $image = $.Resources.GetMatch . }}
+{{ end }}
 
+<div class="post-header{{ if $image }} with-thumbnail{{ end }}">
 
-<div class="post-header{{ if $image }} with-thumbnail{{ end }}"> {{/* Add a class if thumbnail exists for styling */}}
-
-    {{/* --- Thumbnail Section --- */}}
     {{ with $image }}
-        {{/* Resize the image */}}
+        {{ $thumb := "" }}
         {{ $thumb := .Resize $thumbResizeOptions }}
+
+        {{/* Container size is controlled by CSS (e.g., 150x150px) */}}
         <div class="post-thumbnail">
-            <a href="{{ $.RelPermalink }}" aria-hidden="true" tabindex="-1"> {{/* Link thumbnail to post */}}
-                <img src="{{ $thumb.RelPermalink }}"
-                     alt="{{ $.Title }} thumbnail"
-                     width="{{ $thumb.Width }}"
-                     height="{{ $thumb.Height }}"
-                     loading="lazy"> {{/* Add lazy loading */}}
+            <a href="{{ $.RelPermalink }}" aria-hidden="true" tabindex="-1">
+                {{ if $thumb }}
+                    {{/* Image src points to the 2x size (e.g., 300px wide) */}}
+                    <img src="{{ $thumb.RelPermalink }}"
+                         alt="{{ $.Title }} thumbnail"
+                         width="{{ $thumb.Width }}"   {{/* Width attribute matches resized image (~300) */}}
+                         height="{{ $thumb.Height }}" {{/* Height attribute matches resized image */}}
+                         loading="lazy">
+                {{ else }}
+                    <span style="color: red; font-size: 0.8em;">Resize Err</span>
+                {{ end }}
             </a>
         </div>
     {{ end }}
