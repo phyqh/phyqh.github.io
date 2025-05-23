@@ -64,8 +64,8 @@
                 {{ $fullDateStr := printf "%s-01" .Key }}     {{/* Create "YYYY-MM-01" string */}}
                 {{ $groupDate := time $fullDateStr }}         {{/* Parse the full date string */}}
     
-                    {{/* --- Display Month Header --- */}}
-                    <h3 class="publication-month-header">{{ $groupDate.Format "January 2006" }}</h3>
+                    <!-- {{/* --- Display Month Header --- */}}
+                    <h3 class="publication-month-header">{{ $groupDate.Format "January 2006" }}</h3> -->
     
                     {{/* Use the theme's list structure */}}
                     <ul class="posts flat publication-list-group"> {{/* Combine classes */}}

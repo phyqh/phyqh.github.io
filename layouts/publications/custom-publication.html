@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+{{ partial "header.html" . }}
+
+{{ if .Params.redirect }}
+
+<head>
+
+  <meta http-equiv="refresh" content="0; url={{ .Params.redirect }}">
+
+  <script>window.location.href = "{{ .Params.redirect }}";</script>
+
+</head>
+
+<body>
+
+  <p>Redirecting to <a href="{{ .Params.redirect }}">{{ .Params.redirect }}</a>...</p>
+
+</body>
+
+</html>
+
+{{ else }}
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="{{ .Description | plainify }}">
+  <meta name="keywords" content="{{ with .Params.keywords }}{{ delimit . ", " }}{{ end }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }}</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="/">
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">More Research</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/publications/">All Publications</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">{{ .Title }}</h1>
+          
+          <!-- Authors and Affiliations from Description -->
+          <div class="publication-authors">
+            {{ .Description | markdownify | safeHTML }}
+          </div>
+
+          <!-- Download Links -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link -->
+              {{ with .Params.pdf }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              {{ end }}
+              
+              <!-- arXiv Link -->
+              {{ with .Params.arxiv }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              {{ end }}
+              
+              <!-- Video Link -->
+              {{ with .Params.video }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-youtube"></i></span>
+                  <span>Video</span>
+                </a>
+              </span>
+              {{ end }}
+              
+              <!-- Code Link -->
+              {{ with .Params.code }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              {{ end }}
+              
+              <!-- Dataset Link -->
+              {{ with .Params.dataset }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="far fa-images"></i></span>
+                  <span>Data</span>
+                </a>
+              </span>
+              {{ end }}
+
+              <!-- Project Page Link -->
+              {{ with .Params.project }}
+              <span class="link-block">
+                <a href="{{ . }}" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-globe"></i></span>
+                  <span>Project</span>
+                </a>
+              </span>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Image/Teaser -->
+{{ $image := .Resources.GetMatch .Params.thumbnail }}
+{{ with $image }}
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      {{ if $.Params.teaser_video }}
+        <video id="teaser" autoplay muted loop playsinline height="100%" style="width: 100%; max-width: 900px; margin: 0 auto; display: block; border-radius: 10px;">
+          <source src="{{ $.Params.teaser_video }}" type="video/mp4">
+        </video>
+      {{ else }}
+        <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" style="width: 100%; max-width: 900px; height: auto; margin: 0 auto; display: block; border-radius: 10px;">
+      {{ end }}
+      {{ with $.Params.teaser_caption }}
+      <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">{{ . | markdownify | safeHTML }}</h2>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Results Carousel (if videos provided) -->
+{{ with .Params.result_videos }}
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        {{ range . }}
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="{{ .url }}" type="video/mp4">
+          </video>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Abstract Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    {{ with .Params.abstract }}
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          {{ . | markdownify | safeHTML }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+
+    <!-- Embedded Video -->
+    {{ with .Params.video_embed }}
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="{{ . }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX Section -->
+{{ with .Params.bibtex }}
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title">BibTeX</h2>
+        <div class="bibtex-container">
+          <textarea readonly class="bibtex-text">{{ . }}</textarea>
+          <button onclick="copyBibtex()" class="button is-primary is-small" style="margin-top: 0.5rem;">Copy to Clipboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      {{ with .Params.pdf }}
+      <a class="icon-link" href="{{ . }}">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      {{ end }}
+      {{ with .Params.code }}
+      <a class="icon-link" href="{{ . }}">
+        <i class="fab fa-github"></i>
+      </a>
+      {{ end }}
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            <a href="/publications/" class="button is-light">← Back to Publications</a>
+          </p>
+          <p style="font-size: 0.875rem; color: #777; margin-top: 1rem;">
+            Website template adapted from <a href="https://nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  margin: 1.5rem 0;
+  font-size: 1.25rem;
+}
+
+.publication-authors a {
+  color: #3273dc;
+  text-decoration: none;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.publication-links {
+  margin-top: 1.5rem;
+}
+
+.link-block {
+  margin: 0.25rem;
+}
+
+.publication-video iframe {
+  width: 100%;
+  height: 400px;
+  border-radius: 10px;
+}
+
+.hero.teaser .hero-body {
+  padding: 3rem 1.5rem;
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.carousel .item {
+  margin: 0 1rem;
+}
+
+.carousel .item video {
+  border-radius: 10px;
+}
+
+.content h2 {
+  color: #363636;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.content h3 {
+  color: #4a4a4a;
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.bibtex-container {
+  margin-top: 1rem;
+}
+
+.bibtex-text {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.875rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: vertical;
+  line-height: 1.4;
+  color: #333;
+}
+
+.navbar-burger {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-menu {
+    box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+  }
+}
+</style>
+
+<script>
+// Simple carousel functionality
+$(document).ready(function() {
+  // Add any carousel initialization here if needed
+});
+
+// Navbar burger toggle
+$(document).ready(function() {
+  $('.navbar-burger').click(function() {
+    $('.navbar-burger').toggleClass('is-active');
+    $('.navbar-menu').toggleClass('is-active');
+  });
+});
+
+// Copy BibTeX function
+function copyBibtex() {
+  const bibtexText = document.querySelector('.bibtex-text');
+  bibtexText.select();
+  bibtexText.setSelectionRange(0, 99999); // For mobile devices
+  navigator.clipboard.writeText(bibtexText.value).then(() => {
+    const btn = document.querySelector('.button');
+    const originalText = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.remove('is-primary');
+    btn.classList.add('is-success');
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.classList.remove('is-success');
+      btn.classList.add('is-primary');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
+{{ end }}
