@@ -67,27 +67,18 @@ ul.posts.flat li.post .matter {
     padding-bottom: 0;
 }
 
-/* Mobile responsive layout */
-@media (max-width: 768px) {
-    /* Make layout vertical on mobile */
+
+
+@media (max-aspect-ratio: 1/1) {  /* Height >= Width */
     ul.posts.flat li.post .post-header.with-thumbnail {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px; /* Reduce gap for mobile */
+        gap: 10px;
     }
     
-    /* Make thumbnails smaller on mobile */
     ul.posts.flat li.post .post-thumbnail {
         width: 220px;
         height: 220px;
-        margin-bottom: 5px;
-    }
-}
-
-/* For very small screens */
-@media (max-width: 480px) {
-    ul.posts.flat li.post .post-thumbnail {
-        width: 100px;
-        height: 100px;
+        margin-bottom: 10px;
     }
 }
