@@ -61,6 +61,7 @@ jobs:
         run: | # Add --buildFuture will display publications with a later date than the current date (when this build is run)
           hugo \
             --minify \
+            --buildFuture \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

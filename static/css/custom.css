@@ -7,8 +7,8 @@
 /* Target .post-thumbnail more specifically (adjust selector if needed) */
 ul.posts.flat li.post .post-thumbnail {
     flex-shrink: 0; /* Keep */
-    width: 150px;   /* Keep */
-    height: 150px;  /* Keep */
+    width: 220px;   /* Keep */
+    height: 220px;  /* Keep */
     overflow: hidden; /* Keep */
     /* Add a background color for letterboxing/pillarboxing */
     background-color: #f8f8f8; /* Light grey, change as needed, or transparent */
