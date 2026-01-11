@@ -10,12 +10,12 @@ pygmentsstyle = "vs"
 paginate = 10 # articles per page
 
 [params]
-  avatar = "https://avatars.githubusercontent.com/u/76864671?v=4"
+  avatar = "images/myself_rec.jpg"
   mode = "light"
   featherIconsCDN = true
   subtitle = "Graphics and Games!"
   excludedTypes = ["page", "pages"]
-  customCSS = "css/custom.css"
+  customcss = "css/custom.css"
   favicon = "images/icons/genshin-impact.png"
 
 [[params.social]]

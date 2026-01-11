@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html {{- if (eq .Site.Params.mode "dark") -}}class="dark"{{ end }}>
+{{ partial "header.html" . }}
+<body>
+	<div class="container wrapper">
+		{{ partial "head.html" . }}
+        <main>
+            <article>
+                {{ with .Site.GetPage "/" }}{{ .Content }}{{ end }}
+            </article>
+			
+			<h2 class="page-title">Publications</h2>
+			
+			<ul class="posts flat">
+				{{ $allPubs := where .Site.Pages "Section" "publications" }}
+				{{ range $allPubs.ByDate.Reverse }}
+					{{ if and (ne .Title "Publications") (not .Draft) }}
+						<li class="post">
+							{{ partial "post-preview.html" . }}
+						</li>
+					{{ end }}
+				{{ end }}
+			</ul>
+        </main>
+	</div>
+	{{ partial "footer.html" . }}
+</body>
+</html>

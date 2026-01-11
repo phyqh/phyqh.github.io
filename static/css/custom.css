@@ -1,4 +1,71 @@
-/* ---- In your assets/css/custom.css ---- */
+/* ---- Custom CSS for phyqh.github.io ---- */
+
+/* Avatar and header layout - match reference site */
+.header {
+    padding-bottom: 25px !important;
+    margin-bottom: 25px !important;
+    border-bottom: 1px solid #eee !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+}
+
+.header .avatar {
+    width: 120px !important;
+    height: 120px !important;
+    margin: 0 25px 0 0 !important;
+    float: none !important;
+    flex-shrink: 0 !important;
+}
+
+.header .avatar img {
+    width: 120px !important;
+    height: 120px !important;
+}
+
+.header .header-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.header .site-title {
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.header .site-subtitle {
+    margin: 0.3em 0 0.1em 0 !important;
+    font-size: 1em !important;
+}
+
+.header .header-links {
+    font-size: 0.95em !important;
+    margin: 0.5em 0 0 0 !important;
+    display: block !important;
+}
+
+.header .site-description {
+    margin: 0 !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.header .site-description p {
+    margin: 0.3em 0 !important;
+    display: block !important;
+    line-height: 1.4 !important;
+}
+
+.header .header-links {
+    font-size: 0.95em !important;
+    margin-top: 0.5em !important;
+}
+
+/* Hide social icons in header */
+.header .nav.social {
+    display: none !important;
+}
 
 /* Use parent classes from the theme structure to increase specificity */
 /* Adjust '.posts.flat' if your theme uses a different structure */

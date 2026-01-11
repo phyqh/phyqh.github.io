@@ -15,76 +15,15 @@
 		{{ .Content }}
 
 		<ul class="posts flat">
-            {{/* --- START REPLACEMENT --- */}}
-            {{/* --- Grouping Logic --- */}}
-            {{ $pages := where .Pages "Params.hidden" "ne" true }} {{/* Get non-hidden pages in this section */}}
-            <!-- {{/* --- START DEBUG BLOCK 1 --- */}}
-            <div style="border: 2px solid blue; padding: 10px; margin: 10px 0; background: #eee; color: black;">
-                <p><strong>DEBUG PRE-GROUPING:</strong> Found {{ len $pages }} non-hidden pages.</p>
-                <ul>
-                {{ range $pages }}
-                    <li>Page: {{ .Title }} -- Date in Front Matter: [{{ .Date.Format "2006-01-02" }}] -- Link: {{ .RelPermalink }}</li>
-                {{ else }}
-                    <li>-- No non-hidden pages found by 'where' clause --</li>
-                {{ end }}
-                </ul>
-            </div>
-            {{/* --- END DEBUG BLOCK 1 --- */}} -->
-            
-            {{/* NOTE: This removes pagination. Add it back later if needed. */}}
-    
-            {{/* Group pages by month and year */}}
-            {{ $grouped := $pages.GroupByDate "2006-01" }} {{/* Groups by "YYYY-MM" */}}
-
-            <!-- {{/* --- START DEBUG BLOCK 2 --- */}}
-            <div style="border: 2px solid orange; padding: 10px; margin: 10px 0; background: #eee; color: black;">
-                <p><strong>DEBUG GROUPED KEYS:</strong> Found {{ len $grouped }} groups.</p>
-                <p>Keys are:</p>
-                <ul>
-                {{ range $grouped }} {{/* Loop through the groups */}}
-                    <li>Group Key: [{{ .Key }}] -- Pages in group: {{ len .Pages }}</li>
-                    <ul>
-                        {{ range .Pages }}
-                            <li>   {{ .Title }}</li>
-                        {{ end }}
-                    </ul>
-                {{ else }}
-                    <li>-- No groups created by GroupByDate --</li>
-                {{ end }}
-                </ul>
-                {{/* You can also try dumping the whole structure: */}}
-                {{/* <pre style="font-size: 0.7em;">{{ printf "%#v" $grouped }}</pre> */}}
-            </div>
-            {{/* --- END DEBUG BLOCK 2 --- */}} -->
-    
-            {{/* Check if there are any pages at all */}}
-            {{ if $grouped }}
-                {{/* Order groups reverse chronologically (newest month first) */}}
-                {{ range $grouped }}
-                {{ $fullDateStr := printf "%s-01" .Key }}     {{/* Create "YYYY-MM-01" string */}}
-                {{ $groupDate := time $fullDateStr }}         {{/* Parse the full date string */}}
-    
-                    <!-- {{/* --- Display Month Header --- */}}
-                    <h3 class="publication-month-header">{{ $groupDate.Format "January 2006" }}</h3> -->
-    
-                    {{/* Use the theme's list structure */}}
-                    <ul class="posts flat publication-list-group"> {{/* Combine classes */}}
-                        {{ range .Pages }}
-                            <li class="post"> {{/* Use theme's list item class */}}
-                                {{/* Render the preview partial (which no longer has date) */}}
-                                {{ partial "post-preview.html" . }}
-                            </li>
-                        {{ end }}
-                    </ul>
-                {{ end }}
-            {{ else }}
-                <!-- <p>No publications found in this section.</p> {{/* Message if no pages */}} -->
-            {{ end }}
-            {{/* --- End Grouping Logic --- */}}
-            {{/* --- END REPLACEMENT --- */}}
-    
-            {{/* Pagination removed for simplicity, add back if needed outside the grouping loop */}}
-            {{/* {{ template "partials/paginator.html" . }} */}}
+			{{/* Get non-hidden publications */}}
+			{{ $pages := where .Pages "Params.hidden" "ne" true }}
+			
+			{{/* Sort by date descending (newest first) */}}
+			{{ range $pages.ByDate.Reverse }}
+				<li class="post">
+					{{ partial "post-preview.html" . }}
+				</li>
+			{{ end }}
 		</ul>
 	</div>
 

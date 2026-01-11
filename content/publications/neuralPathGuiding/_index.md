@@ -1,6 +1,7 @@
 ---
 title: "Neural Path Guiding with Distribution Factorization"
 date: "2025-06-26"
+draft: false
 layout: "custom-publication"
 description: | 
     *Neural path guiding method that breaks down the 2D distribution over the directional domain into two 1D probability distribution functions (PDF).*<br>

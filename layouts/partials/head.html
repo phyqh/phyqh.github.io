@@ -1,0 +1,30 @@
+<div class="header">
+	{{ if .Site.Params.Avatar }}
+		<div class="avatar">
+			<a href="{{ .Site.BaseURL }}">
+				<img src="{{ .Site.Params.Avatar | safeURL }}" alt="{{ .Site.Title }}" />
+			</a>
+		</div>
+	{{ end }}
+	<div class="header-text">
+		<h1 class="site-title"><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
+		{{- if isset .Site.Params "subtitle" -}}
+		<p class="site-subtitle">{{ .Site.Params.Subtitle | markdownify }}</p>
+		{{- end -}}
+		<p class="header-links">
+			<a href="/files/CV.pdf">CV</a> | <a href="mailto:phyqh@tamu.edu">Email</a> | <a href="https://scholar.google.com/citations?user=Hx2JnYkAAAAJ">Google Scholar</a>
+		</p>
+	</div>
+	<nav class="nav social">
+		<ul class="flat">
+			{{- range $index, $key := .Site.Params.Social -}}
+				<li><a href="{{ $key.url }}" title="{{ $key.name }}"><i data-feather="{{ $key.icon }}"></i></a></li>
+			{{- end -}}
+		{{- if or (eq .Site.Params.mode "auto") (eq .Site.Params.mode "dark") -}}
+			<li><a href="#" class="scheme-toggle" id="scheme-toggle"></a></li>
+		{{- end -}}
+		</ul>
+	</nav>
+		</ul>
+	</nav>
+</div>

@@ -1,6 +1,7 @@
 ---
 title: "Neural Importance Sampling of Many Lights"
 date: "2025-08-12"
+draft: false
 layout: "custom-publication"
 description: | 
     *Neural approach for estimating spatially varying light selection distributions to improve importance sampling in Monte Carlo rendering.*<br>
