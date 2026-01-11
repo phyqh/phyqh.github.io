@@ -2,7 +2,7 @@ baseURL = "https://phyqh.github.io/"
 copyright = "© HE Qihao"
 languageCode = "en-us"
 theme = "hugo-ink"
-title = "HE Qihao"
+title = "HE Qihao (何其昊)"
 # Code Highlight
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
